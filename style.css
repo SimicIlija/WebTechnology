@@ -1,0 +1,21 @@
+body {
+	height: 100vw;
+	width: 100vh;
+	margin: 0;
+}
+
+h1 {
+	text-align: center;
+}
+
+#chat {
+	margin-left: 12.5%
+}
+
+#board {
+	margin-left: 12.5%;
+}
+
+#in_chat {
+	background-color: grey;
+}
