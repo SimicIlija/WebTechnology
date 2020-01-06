@@ -2,8 +2,9 @@
 
 const { User, validate } = require('../models/userModel');
 
-exports.test = function (req, res) {
-    res.send("Hello from controller!");
+exports.test = async function (req, res) {
+    let users = await User.find({});
+    res.status(200).json(users);
 }
 
 exports.register = async function (req, res) {
