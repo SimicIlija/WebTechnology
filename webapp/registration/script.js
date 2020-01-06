@@ -17,8 +17,9 @@ class Model {
             .then(response => { this.status = response.status; return response.json(); })
             .then(data => {
                 if (this.status === 200) {
+                    toastr.options.progressBar = true;
+                    toastr.options.onHidden = function() {window.location.replace("/login/index.html"); }
                     toastr.success(data);
-                    window.location.replace("/login/index.html");
                 } else { toastr.error(data); }
             })
             .catch(error => toastr.error(error));
