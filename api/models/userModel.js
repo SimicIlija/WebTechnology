@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi');
 var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
-var UserSchema = new Schema({
+var UserSchema = mongoose.model('User', new Schema({
     username: {
         type: String,
         required: true,
@@ -24,14 +24,14 @@ var UserSchema = new Schema({
         minlength: 3,
         maxlength: 25
     }
-});
+}));
 
 function validateUser(user) {
-    console.log(user);
     const schema = {
         username: Joi.string().min(3).max(25).required(),
         email: Joi.string().min(3).max(25).required().email(),
-        password: Joi.string().min(3).max(25).required()
+        password: Joi.string().min(3).max(25).required(),
+        repeatPassword: Joi.string().min(3).max(25).required()
     };
     return  Joi.validate(user, schema);
 }

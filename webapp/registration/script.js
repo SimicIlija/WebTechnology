@@ -1,10 +1,27 @@
 class Model {
     constructor() {
         this.user = {};
+        this.status = 0;
     }
 
-    submitUser() {
-        alert(this.user);
+    async submitUser() {
+        var url = 'http://localhost:3000/register';
+        await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            mode: 'same-origin',
+            body: JSON.stringify(this.user)
+        })
+            .then(response => { this.status = response.status; return response.json(); })
+            .then(data => {
+                if (this.status === 200) {
+                    toastr.success(data);
+                    window.location.replace("/login/index.html");
+                } else { toastr.error(data); }
+            })
+            .catch(error => toastr.error(error));
     }
 }
 
@@ -109,6 +126,7 @@ class Controller {
     }
 
     handleSubmitUser = event => {
+        event.preventDefault();
         var user = {};
         user.username = this.view.username.value;
         user.email = this.view.email.value;
