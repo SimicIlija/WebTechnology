@@ -50,11 +50,22 @@ class Controller {
         this.view = view;
         this.view.logoutButton.textContent = this.model.user + '(logout)';
         this.view.bindLogout(this.logout);
+        this.socketConnect();
     }
 
     logout = event => {
         sessionStorage.clear();
         window.location.replace('/login/index.html');
+    }
+    socketConnect(){
+        const socket = new WebSocket('ws://localhost:9000');
+        var username = this.model.user;
+        socket.addEventListener('open', function (event) {
+            socket.send(JSON.stringify(username));
+        });
+        socket.addEventListener('message', function (event) {
+            console.log('Message from server ', event.data);
+        });
     }
 
 }
