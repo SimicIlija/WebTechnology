@@ -51,6 +51,7 @@ class Controller {
         this.view = view;
         this.view.logoutButton.textContent = this.model.user + '(logout)';
         this.view.bindLogout(this.logout);
+        this.socket = null;
         this.socketConnect();
     }
 
@@ -59,19 +60,25 @@ class Controller {
         window.location.replace('/login/index.html');
     }
     socketConnect() {
-        const socket = new WebSocket('ws://localhost:9000');
+        this.socket = new WebSocket('ws://localhost:9000');
         var objectUsername = {};
         objectUsername.username = this.model.user;
         console.log(objectUsername);
-        socket.addEventListener('open', function (event) {
-            socket.send(JSON.stringify(objectUsername));
+        this.socket.addEventListener('open', event => {
+            this.socket.send(JSON.stringify(objectUsername));
         });
-        socket.addEventListener('message', event => {
+        this.socket.addEventListener('message', event => {
             var object = JSON.parse(event.data);
             if (object.users) {
                 this.model.onlineUsers = object.users;
                 this.model.onlineUsers.splice(this.model.onlineUsers.indexOf(this.model.user), 1);
                 this.redrawUsers();
+            }
+            if (object.opponent) {
+                sessionStorage.setItem('opponent', object.opponent);
+                toastr.options.progressBar = true;
+                toastr.options.onHidden = function () { window.location.replace("/game/game.html"); }
+                toastr.success("Playing against " + object.opponent);
             }
         });
     }
@@ -93,7 +100,10 @@ class Controller {
                 button.textContent = 'Play!';
                 button.id = user;
                 button.addEventListener('click', e => {
-                    alert(sessionStorage.getItem('user') + 'vs' + button.id);
+                    var startGame = {};
+                    startGame.secondPlayer = e.target.id;
+                    startGame.firstPlayer = this.model.user;
+                    this.socket.send(JSON.stringify(startGame));
                 })
                 element.append(label, button);
                 this.view.userList.append(element);

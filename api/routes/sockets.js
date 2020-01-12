@@ -8,9 +8,16 @@ module.exports = class ArenaSocket {
     initSocket() {
         this.socket.on('connection', ws => {
             ws.on('message', message => {
+                console.log(message);
                 var object = JSON.parse(message);
-                this.userSocketMap.set(object.username, ws);
-                this.notifyAll();
+                console.log(object);
+                if (object.username) {
+                    this.userSocketMap.set(object.username, ws);
+                    this.notifyAll();
+                }
+                if (object.firstPlayer) {
+                    this.startGame(object.firstPlayer, object.secondPlayer);
+                }
             });
             ws.on('close', () => {
                 for (let [key, value] of this.userSocketMap) {
@@ -31,6 +38,24 @@ module.exports = class ArenaSocket {
             var object = {};
             object.users = onlineUsers;
             ws.send(JSON.stringify(object));
+        }
+    }
+
+    startGame(firstPlayer, secondPlayer) {
+        for (let [key, value] of this.userSocketMap) {
+            if (key == firstPlayer) {
+                var gameObject = {};
+                gameObject.opponent = secondPlayer;
+                value.send(JSON.stringify(gameObject));
+                this.userSocketMap.delete(key);
+            }
+            if (key == secondPlayer) {
+                var gameObject = {};
+                gameObject.opponent = firstPlayer;
+                value.send(JSON.stringify(gameObject));
+                this.userSocketMap.delete(key);
+            }
+
         }
     }
 }
