@@ -4,10 +4,18 @@
 	<meta charset="UTF-8">
 	<title>Game</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
+	<style type="text/css">
+		.piece {
+			cursor:move;
+		}
+	</style>
+	<script src="draggable.js"></script>
+	<script src="draw.js"></script>
 </head>
 <body onload="draw_game(startin_position())">
 	<h1>Play game</h1>
-	<svg id="board" width="75vw" height="75vw">
+	<svg id="board" width="75vw" height="75vw" 
+		onload="make_draggable(evt)">
 		<!-- Rank 8 -->
 		<rect id="a8" x="0" y="0" height="12.5%" width="12.5%" fill="red"/>
 		<rect id="b8" x="12.5%" y="0" height="12.5%" width="12.5%" fill="black"/>
@@ -104,7 +112,7 @@
 	</section>
 </body>
 
-<script src="draw.js"></script>
+
 <script type="text/javascript">
 	function startin_position() {
 		var startin_position_json = '{"white":[{"b8" : "b8"}, {"d8" : "d8"}, {"f8" : "f8"}, {"h8" : "h8"}, {"a7" : "a7"}, {"c7" : "c7"}, {"e7" : "e7"}, {"g7" : "g7"}, {"b6" : "b6"}, {"d6" : "d6"}, {"f6" : "f6"}, {"h6" : "h6"}], "green": [{"a3" : "a3"}, {"c3" : "c3"}, {"e3" : "e3"}, {"g3" : "g3"}, {"b2" : "b2"}, {"d2" : "d2"}, {"f2" : "f2"}, {"h2" : "h2"}, {"a1" : "a1"}, {"c1" : "c1"}, {"e1" : "e1"}, {"g1" : "g1"}]}'
