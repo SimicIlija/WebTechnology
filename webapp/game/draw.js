@@ -23,8 +23,8 @@ class View {
         		if(this.clicked_position){
         			console.log("square ", e.target.id)
         			this.clicked_position.id = e.target.id + "aas"
-        			this.clicked_position.setAttributeNS(null, "cx",getX(Number(e.target.id[0])))
-        			this.clicked_position.setAttributeNS(null, "cy", getY(Number(e.target.id[1])))
+        			this.clicked_position.setAttributeNS(null, "cx",getX(Number(e.target.id[1])))
+        			this.clicked_position.setAttributeNS(null, "cy", getY(Number(e.target.id[0])))
         			this.clicked_position = null
         		}
         	})
@@ -121,65 +121,6 @@ class Controller {
 
 const game = new Controller(new Model(), new View());
 
-
-function draw_game(position) {
-	// removing old pieces
-	var old_pieces = document.getElementsByClassName('piece')
-	while(old_pieces.length > 0){
-        old_pieces[0].parentNode.removeChild(old_pieces[0]);
-    }
-    // get new pieces positions
-	var game_state = JSON.parse(game_string_json)
-
-	// prepare svg object string
-	var piece_string = ""
-	var piece_string_1 = "<circle cx = '"
-	var piece_string_2 = "' cy = '"
-	var piece_string_3 = "' r = '5%' fill = '"
-	var piece_string_4 = "' class = 'piece' id = '"
-	var piece_string_5 = "'/>"
-	var piece_c = ""
-	for(let i = 0; i < 8; i++) {
-		for(let j = 0; j < 8; j++) {
-			if (position[i][j] == 1) {
-				piece_c = "white";
-			} else if (position[i][j] == 2) {
-				piece_c = "green"
-			} else {
-				continue
-			}
-			piece = createElement("circle", "piece")
-			piece.setAttribute("cx", getX(j))
-			piece.setAttribute("cy", getY(i))
-			piece.setAttribute("fill", piece_c)
-			piece.setAttribute("r", "5%")
-			piece.set
-
-			document.getElementById("board").append(piece)
-		}
-	}
-	/*
-	game_state.white.forEach((item) => {
-		Object.entries(item).forEach(([key, val]) => {
-			piece_x = getX(val)
-			piece_y = getY(val)
-			piece_c = "white"
-			piece_string = piece_string_1 + piece_x + piece_string_2 + piece_y + piece_string_3 + piece_c + piece_string_4 + val + "_" + piece_c + piece_string_5
-			document.getElementById("board").innerHTML += piece_string
-		})
-	})
-
-	game_state.green.forEach((item) => {
-		Object.entries(item).forEach(([key, val]) => {
-			piece_x = getX(val)
-			piece_y = getY(val)
-			piece_c = "green"
-			piece_string = piece_string_1 + piece_x + piece_string_2 + piece_y + piece_string_3 + piece_c + piece_string_4 + val + "_" + piece_c + piece_string_5
-			document.getElementById("board").innerHTML += piece_string
-		})
-	})
-	*/
-}
 
 function getX(position) {
 	switch(position) {
