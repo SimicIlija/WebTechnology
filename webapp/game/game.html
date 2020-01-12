@@ -1,6 +1,25 @@
 <!DOCTYPE html>
 <html>
 <head>
+
+		<style>
+				.btn {
+				  background-color: DodgerBlue;
+				  border: none;
+				  color: white;
+				  padding: 12px 30px;
+				  cursor: pointer;
+				  font-size: 20px;
+
+				}
+				
+				/* Darker background on mouse-over */
+				.btn:hover {
+				  background-color: RoyalBlue;
+				}
+				</style>
+
+
 	<meta charset="UTF-8">
 	<title>Game</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -94,6 +113,14 @@
 
 	<section id = "chat">
 		<h2>Game State</h2>
+
+		<div id="dropContainer" style="border:1px solid black;height:100px;">
+				Drop your game state here
+			 </div>
+			    Or Update here:
+			   <input type="file" id="fileInput" />
+
+		
 		<svg id = in_chat width="75%" height="75%">
 		</svg>
 		<svg id = drop_in width="11%" height="25%">
@@ -103,6 +130,10 @@
 	</section>
 
 	<section id = "test">
+
+			
+		<button id="dowload" class="btn"><i class="fa fa-download"></i> Download</button>
+	
 	</section>
 </body>
 	<script src="draw.js"></script>

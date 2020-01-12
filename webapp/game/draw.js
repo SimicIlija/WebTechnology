@@ -84,38 +84,12 @@ class View {
 		}
 	
 	}
-
-	get_game_array() {
-		var pieces = document.getElementsByClassName('piece')
-		var i
-		var j
-		var c
-		var game_array = [
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0],
-			[0,0,0,0,0,0,0,0]]
-			console.log(pieces.length)
-		for (var k = 0; k < pieces.length; k++) {
-			c = pieces[k].id[6] == "e" ? 1 : 2
-			i = pieces[k].id[0]
-			j = pieces[k].id[1]
-			game_array[i][j] = c
-		}
-		console.log(game_array)
-		return game_array
-	}
 }
 class Controller {
     constructor(model, view) {
         this.model = model;
         this.view = view;
         this.view.draw_game(this.model.startin_position)
-        this.view.get_game_array()
     }
 }
 
