@@ -4,97 +4,91 @@
 	<meta charset="UTF-8">
 	<title>Game</title>
 	<link rel="stylesheet" type="text/css" href="style.css">
-	<style type="text/css">
-		.piece {
-			cursor:move;
-		}
-	</style>
+	
 	<script src="draggable.js"></script>
-	<script src="draw.js"></script>
 </head>
-<body onload="draw_game(startin_position())">
+<body>
 	<h1>Play game</h1>
-	<svg id="board" width="75vw" height="75vw" 
-		onload="make_draggable(evt)">
+	<svg id="board" width="75vw" height="75vw" >
 		<!-- Rank 8 -->
-		<rect id="a8" x="0" y="0" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="b8" x="12.5%" y="0" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="c8" x="25%" y="0" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="d8" x="37.5%" y="0" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="e8" x="50%" y="0" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="f8" x="62.5%" y="0" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="g8" x="75%" y="0" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="h8" x="87.5%" y="0" height="12.5%" width="12.5%" fill="black"/>
+		<rect id="0" x="0" y="0" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="1" x="12.5%" y="0" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="2" x="25%" y="0" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="3" x="37.5%" y="0" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="4" x="50%" y="0" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="5" x="62.5%" y="0" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="6" x="75%" y="0" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="7" x="87.5%" y="0" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
 
 		<!-- Rank 7 -->
-		<rect id="a7" x="0" y="12.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="b7" x="12.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="c7" x="25%" y="12.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="d7" x="37.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="e7" x="50%" y="12.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="f7" x="62.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="g7" x="75%" y="12.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="h7" x="87.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="10" x="0" y="12.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="11" x="12.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="12" x="25%" y="12.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="13" x="37.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="14" x="50%" y="12.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="15" x="62.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="16" x="75%" y="12.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="17" x="87.5%" y="12.5%" height="12.5%" width="12.5%" fill="red"/>
 
 		<!-- Rank 6-->
-		<rect id="a6" x="0" y="25%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="b6" x="12.5%" y="25%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="c6" x="25%" y="25%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="d6" x="37.5%" y="25%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="e6" x="50%" y="25%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="f6" x="62.5%" y="25%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="g6" x="75%" y="25%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="h6" x="87.5%" y="25%" height="12.5%" width="12.5%" fill="black"/>
+		<rect id="20" x="0" y="25%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="21" x="12.5%" y="25%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="22" x="25%" y="25%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="23" x="37.5%" y="25%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="24" x="50%" y="25%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="25" x="62.5%" y="25%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="26" x="75%" y="25%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="27" x="87.5%" y="25%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
 
 		<!-- Rank 5 -->
-		<rect id="a5" x="0" y="37.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="b5" x="12.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="c5" x="25%" y="37.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="d5" x="37.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="e5" x="50%" y="37.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="f5" x="62.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="g5" x="75%" y="37.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="h5" x="87.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="30" x="0" y="37.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="31" x="12.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="32" x="25%" y="37.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="33" x="37.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="34" x="50%" y="37.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="35" x="62.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="36" x="75%" y="37.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="37" x="87.5%" y="37.5%" height="12.5%" width="12.5%" fill="red"/>
 
 		<!-- Rank 4 -->
-		<rect id="a4" x="0" y="50%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="b4" x="12.5%" y="50%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="c4" x="25%" y="50%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="d4" x="37.5%" y="50%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="e4" x="50%" y="50%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="f4" x="62.5%" y="50%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="g4" x="75%" y="50%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="h4" x="87.5%" y="50%" height="12.5%" width="12.5%" fill="black"/>
+		<rect id="40" x="0" y="50%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="41" x="12.5%" y="50%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="42" x="25%" y="50%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="43" x="37.5%" y="50%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="44" x="50%" y="50%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="45" x="62.5%" y="50%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="46" x="75%" y="50%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="47" x="87.5%" y="50%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
 
 		<!-- Rank 3 -->
-		<rect id="a3" x="0" y="62.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="b3" x="12.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="c3" x="25%" y="62.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="d3" x="37.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="e3" x="50%" y="62.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="f3" x="62.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="g3" x="75%" y="62.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="h3" x="87.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="50" x="0" y="62.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="51" x="12.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="52" x="25%" y="62.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="53" x="37.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="54" x="50%" y="62.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="55" x="62.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="56" x="75%" y="62.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="57" x="87.5%" y="62.5%" height="12.5%" width="12.5%" fill="red"/>
 
 		<!-- Rank 2 -->
-		<rect id="a2" x="0" y="75%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="b2" x="12.5%" y="75%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="c2" x="25%" y="75%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="d2" x="37.5%" y="75%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="e2" x="50%" y="75%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="f2" x="62.5%" y="75%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="g2" x="75%" y="75%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="h2" x="87.5%" y="75%" height="12.5%" width="12.5%" fill="black"/>
+		<rect id="60" x="0" y="75%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="61" x="12.5%" y="75%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="62" x="25%" y="75%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="63" x="37.5%" y="75%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="64" x="50%" y="75%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="65" x="62.5%" y="75%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="66" x="75%" y="75%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="67" x="87.5%" y="75%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
 
 		<!-- Rank 1 -->
-		<rect id="a1" x="0" y="87.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="b1" x="12.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="c1" x="25%" y="87.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="d1" x="37.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="e1" x="50%" y="87.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="f1" x="62.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
-		<rect id="g1" x="75%" y="87.5%" height="12.5%" width="12.5%" fill="black"/>
-		<rect id="h1" x="87.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="70" x="0" y="87.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="71" x="12.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="72" x="25%" y="87.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="73" x="37.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="74" x="50%" y="87.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="75" x="62.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
+		<rect id="76" x="75%" y="87.5%" height="12.5%" width="12.5%" fill="black" class = "valid_position"/>
+		<rect id="77" x="87.5%" y="87.5%" height="12.5%" width="12.5%" fill="red"/>
 	</svg>
 
 
@@ -111,11 +105,22 @@
 	<section id = "test">
 	</section>
 </body>
+	<script src="draw.js"></script>
 
 
 <script type="text/javascript">
 	function startin_position() {
-		var startin_position_json = '{"white":[{"b8" : "b8"}, {"d8" : "d8"}, {"f8" : "f8"}, {"h8" : "h8"}, {"a7" : "a7"}, {"c7" : "c7"}, {"e7" : "e7"}, {"g7" : "g7"}, {"b6" : "b6"}, {"d6" : "d6"}, {"f6" : "f6"}, {"h6" : "h6"}], "green": [{"a3" : "a3"}, {"c3" : "c3"}, {"e3" : "e3"}, {"g3" : "g3"}, {"b2" : "b2"}, {"d2" : "d2"}, {"f2" : "f2"}, {"h2" : "h2"}, {"a1" : "a1"}, {"c1" : "c1"}, {"e1" : "e1"}, {"g1" : "g1"}]}'
+		var startin_position_json = 
+			[
+			[0,1,0,1,0,1,0,1],
+			[1,0,1,0,1,0,1,0],
+			[0,1,0,1,0,1,0,1],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,2,0,2,0,2,0,2],
+			[2,0,2,0,2,0,2,0],
+			[0,2,0,2,0,2,0,2]
+			]
 		return startin_position_json
 	}
 </script>
