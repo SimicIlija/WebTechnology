@@ -1,3 +1,4 @@
+/*
 function make_draggable(evt) {
     var svg = evt.target;
     svg.addEventListener('mousedown', startDrag);
@@ -30,9 +31,6 @@ function make_draggable(evt) {
       }
     }
 
-
-
-
     function drag(evt) {
       if (selectedElement) {
         evt.preventDefault();
@@ -41,10 +39,21 @@ function make_draggable(evt) {
       }
     }
 
-
-    
     function endDrag(evt) {
+        //transform.matrix.e = place_in_valid(transform.matrix.e, selectedElement)
+        //transform.matrix.f = place_in_valid(transform.matrix.f, selectedElement)
+        console.log("old_id: " + selectedElement.id)
+
+        new_x = String.fromCharCode(selectedElement.id[0].charCodeAt(0) + Math.floor(transform.matrix.e / 90))
+        selectedElement.id = selectedElement.id.replaceAt(0, new_x)
+
+        new_y = String.fromCharCode(selectedElement.id[1].charCodeAt(0) + Math.floor(transform.matrix.f / 90))
+        selectedElement.id = selectedElement.id.replaceAt(1, new_y)
+
+        console.log("new_id: " + selectedElement.id)
+
         selectedElement = null;
+
     }
 
     function getMousePosition(evt) {
@@ -55,7 +64,28 @@ function make_draggable(evt) {
       };
     }
 
+    function place_in_valid(x, element, d) {
+        quotient = Math.floor(x/90)
+        remainder = mod(x, 90)
+        if(remainder >= 45) {
+            if (quotient < 0) {
+                quotient -= 1
+            } else {
+                quotient += 1
+            }
+        }
+        
 
+        return quotient * 90
+    }
 }
 
+String.prototype.replaceAt=function(index, replacement) {
+    return this.substr(0, index) + replacement+ this.substr(index + replacement.length);
+}
 
+function mod(n, m) {
+  return ((n % m) + m) % m;
+}
+
+*/

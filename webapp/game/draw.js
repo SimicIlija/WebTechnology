@@ -1,16 +1,128 @@
+class Model {
+    constructor() {
+    	this.startin_position = [
+			[0,1,0,1,0,1,0,1],
+			[1,0,1,0,1,0,1,0],
+			[0,1,0,1,0,1,0,1],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[2,0,2,0,2,0,2,0],
+			[0,2,0,2,0,2,0,2],
+			[2,0,2,0,2,0,2,0]]
+    }
+}
 
-var coordinates = [
-    'a8','b8','c8','d8','e8','f8','g8','h8',
-	'a7','b7','c7','d7','e7','f7','g7','h7',
-	'a6','b6','c6','d6','e6','f6','g6','h6',
-	'a5','b5','c5','d5','e5','f5','g5','h5',
-	'a4','b4','c4','d4','e4','f4','g4','h4',
-	'a3','b3','c3','d3','e3','f3','g3','h3',
-	'a2','b2','c2','d2','e2','f2','g2','h2',
-	'a1','b1','c1','d1','e1','f1','g1','h1'
-];
+class View {
+    constructor() {
+        // The root element
+        this.root = document.getElementById("board");
+        this.valid_pos = document.getElementsByClassName("valid_position");
+        this.clicked_position = null
+        for(let elem of this.valid_pos){
+        	elem.addEventListener("click", e => {
+        		if(this.clicked_position){
+        			console.log("square ", e.target.id)
+        			this.clicked_position.id = e.target.id + "aas"
+        			this.clicked_position.setAttributeNS(null, "cx",getX(Number(e.target.id[0])))
+        			this.clicked_position.setAttributeNS(null, "cy", getY(Number(e.target.id[1])))
+        			this.clicked_position = null
+        		}
+        	})
+        }
+    }
+    // create element with custom css element
+    createElement(tag, className) {
+        const element = document.createElement(tag);
+        if (className) {
+            element.classList.add(className);
+        }
+        return element;
+    }
 
-function draw_game(game_string_json) {
+    // Retrieve an element from the DOM
+    getElement(selector) {
+        const element = document.querySelector(selector);
+        return element;
+    }
+
+    draw_game(position) {
+		// removing old pieces
+		var old_pieces = document.getElementsByClassName('piece')
+		while(old_pieces.length > 0){
+	        old_pieces[0].parentNode.removeChild(old_pieces[0]);
+	    }
+	    var svgns = "http://www.w3.org/2000/svg"
+		// prepare svg object string
+		var piece_c = ""
+		for(let i = 0; i < 8; i++) {
+			for(let j = 0; j < 8; j++) {
+				if (position[i][j] == 1) {
+					piece_c = "white";
+				} else if (position[i][j] == 2) {
+					piece_c = "green"
+				} else {
+					continue
+				}
+				var piece = document.createElementNS(svgns, 'circle')
+				piece.setAttributeNS(null, "cx", getX(j))
+				piece.setAttributeNS(null, "cy", getY(i))
+				piece.setAttributeNS(null, "r", "5%")
+				piece.setAttributeNS(null, "fill", piece_c)
+				piece.setAttributeNS(null, "id", i.toString() + j.toString() + piece_c)
+				piece.setAttributeNS(null, "class", "piece")
+				piece.addEventListener("click", e => {
+					if(!this.clicked_position) {
+						console.log(e.target.id)
+	        			this.clicked_position = e.target
+	        		} else if(this.clicked_position == e) {
+	        			this.clicked_position = null
+	        		}
+        		})
+				this.root.appendChild(piece)
+				
+			}
+		}
+	
+	}
+
+	get_game_array() {
+		var pieces = document.getElementsByClassName('piece')
+		var i
+		var j
+		var c
+		var game_array = [
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0],
+			[0,0,0,0,0,0,0,0]]
+			console.log(pieces.length)
+		for (var k = 0; k < pieces.length; k++) {
+			c = pieces[k].id[6] == "e" ? 1 : 2
+			i = pieces[k].id[0]
+			j = pieces[k].id[1]
+			game_array[i][j] = c
+		}
+		console.log(game_array)
+		return game_array
+	}
+}
+class Controller {
+    constructor(model, view) {
+        this.model = model;
+        this.view = view;
+        this.view.draw_game(this.model.startin_position)
+        this.view.get_game_array()
+    }
+}
+
+const game = new Controller(new Model(), new View());
+
+
+function draw_game(position) {
 	// removing old pieces
 	var old_pieces = document.getElementsByClassName('piece')
 	while(old_pieces.length > 0){
@@ -24,14 +136,35 @@ function draw_game(game_string_json) {
 	var piece_string_1 = "<circle cx = '"
 	var piece_string_2 = "' cy = '"
 	var piece_string_3 = "' r = '5%' fill = '"
-	var piece_string_4 = "' class = 'piece'/>"
+	var piece_string_4 = "' class = 'piece' id = '"
+	var piece_string_5 = "'/>"
+	var piece_c = ""
+	for(let i = 0; i < 8; i++) {
+		for(let j = 0; j < 8; j++) {
+			if (position[i][j] == 1) {
+				piece_c = "white";
+			} else if (position[i][j] == 2) {
+				piece_c = "green"
+			} else {
+				continue
+			}
+			piece = createElement("circle", "piece")
+			piece.setAttribute("cx", getX(j))
+			piece.setAttribute("cy", getY(i))
+			piece.setAttribute("fill", piece_c)
+			piece.setAttribute("r", "5%")
+			piece.set
 
+			document.getElementById("board").append(piece)
+		}
+	}
+	/*
 	game_state.white.forEach((item) => {
 		Object.entries(item).forEach(([key, val]) => {
 			piece_x = getX(val)
 			piece_y = getY(val)
 			piece_c = "white"
-			piece_string = piece_string_1 + piece_x + piece_string_2 + piece_y + piece_string_3 + piece_c + piece_string_4
+			piece_string = piece_string_1 + piece_x + piece_string_2 + piece_y + piece_string_3 + piece_c + piece_string_4 + val + "_" + piece_c + piece_string_5
 			document.getElementById("board").innerHTML += piece_string
 		})
 	})
@@ -41,54 +174,56 @@ function draw_game(game_string_json) {
 			piece_x = getX(val)
 			piece_y = getY(val)
 			piece_c = "green"
-			piece_string = piece_string_1 + piece_x + piece_string_2 + piece_y + piece_string_3 + piece_c + piece_string_4
+			piece_string = piece_string_1 + piece_x + piece_string_2 + piece_y + piece_string_3 + piece_c + piece_string_4 + val + "_" + piece_c + piece_string_5
 			document.getElementById("board").innerHTML += piece_string
 		})
 	})
+	*/
 }
 
 function getX(position) {
-	switch(position[0]) {
-		case "a":
+	switch(position) {
+		case 0:
 			return "6.25%"
-		case "b":
+		case 1:
 			return "18.75%"
-		case "c":
+		case 2:
 			return "31.25%"
-		case "d":
+		case 3:
 			return "43.75%"
-		case "e":
+		case 4:
 			return "56.25%"
-		case "f":
+		case 5:
 			return "68.75%"
-		case "g":
+		case 6:
 			return "81.25%"
-		case "h":
+		case 7:
 			return "93.75%"
 	}
 }
 
 function getY(position) {
-	switch(position[1]) {
-		case "1":
+	switch(position) {
+		case 7:
 			return "93.75%"
-		case "2":
+		case 6:
 			return "81.25%"
-		case "3":
+		case 5:
 			return "68.75%"
-		case "4":
+		case 4:
 			return "56.25%"
-		case "5":
+		case 3:
 			return "43.75%"
-		case "6":
+		case 2:
 			return "31.25%"
-		case "7":
+		case 1:
 			return "18.75%"
-		case "8":
+		case 0:
 			return "6.25%"
 	}
+}
 
-
+/*
 //FileSystemAPI
 
 window.requestFileSystem  = window.requestFileSystem || window.webkitRequestFileSystem;
@@ -101,7 +236,14 @@ window.requestFileSystem(type, size, successCallback, opt_errorCallback)
 //	console.log('Opened file system: ' + fs.name);
   //}
   
-  //window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/, onInitFs, errorHandler);
+  //window.requestFileSystem(window.TEMPORARY, 5*1024*1024 /*5MB*/
+
+
+
+  /*
+
+
+  , onInitFs, errorHandler);
 
 
 
@@ -159,3 +301,4 @@ function errorHandler(e) {
   
 	console.log('Error: ' + msg);
   }
+*/
