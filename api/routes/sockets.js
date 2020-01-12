@@ -8,8 +8,8 @@ module.exports = class ArenaSocket {
     initSocket() {
         this.socket.on('connection', ws => {
             ws.on('message', message => {
-                console.log(message);
-                this.userSocketMap.set(message, ws);
+                var object = JSON.parse(message);
+                this.userSocketMap.set(object.username, ws);
                 this.notifyAll();
             });
             ws.on('close', () => {
@@ -28,7 +28,9 @@ module.exports = class ArenaSocket {
             onlineUsers.push(key);
         }
         for (let ws of this.userSocketMap.values()) {
-            ws.send(JSON.stringify(onlineUsers));
+            var object = {};
+            object.users = onlineUsers;
+            ws.send(JSON.stringify(object));
         }
     }
 }
