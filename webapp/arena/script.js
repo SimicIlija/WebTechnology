@@ -1,7 +1,7 @@
 class Model {
     constructor() {
         var user = sessionStorage.getItem('user');
-        if(!user){
+        if (!user) {
             window.location.replace('/login/index.html');
         }
         this.user = user;
@@ -17,10 +17,11 @@ class View {
         // The title of the app
         this.title = this.createElement('h1');
         this.title.textContent = 'Online players';
+        this.emptyElement = this.createElement('div');
         this.logoutButton = this.createElement('button');
-        
+
         this.userList = this.createElement('ul');
-        this.root.append(this.title, this.logoutButton, this.userList);
+        this.root.append(this.title, this.emptyElement, this.userList, this.logoutButton);
     }
     // create element with custom css element
     createElement(tag, className) {
@@ -37,7 +38,7 @@ class View {
         return element;
     }
 
-    bindLogout(handler){
+    bindLogout(handler) {
         this.logoutButton.addEventListener('click', handler);
 
     }
@@ -57,15 +58,54 @@ class Controller {
         sessionStorage.clear();
         window.location.replace('/login/index.html');
     }
-    socketConnect(){
+    socketConnect() {
         const socket = new WebSocket('ws://localhost:9000');
-        var username = this.model.user;
+        var objectUsername = {};
+        objectUsername.username = this.model.user;
+        console.log(objectUsername);
         socket.addEventListener('open', function (event) {
-            socket.send(JSON.stringify(username));
+            socket.send(JSON.stringify(objectUsername));
         });
-        socket.addEventListener('message', function (event) {
-            console.log('Message from server ', event.data);
+        socket.addEventListener('message', event => {
+            var object = JSON.parse(event.data);
+            if (object.users) {
+                this.model.onlineUsers = object.users;
+                this.model.onlineUsers.splice(this.model.onlineUsers.indexOf(this.model.user), 1);
+                this.redrawUsers();
+            }
         });
+    }
+    redrawUsers() {
+        console.log(this.model.onlineUsers);
+        if (this.model.onlineUsers.length) {
+            while (this.view.emptyElement.firstChild) {
+                this.view.emptyElement.firstChild.remove();
+            }
+            while (this.view.userList.firstChild) {
+                this.view.userList.firstChild.remove();
+            }
+            for (let user of this.model.onlineUsers) {
+
+                var element = this.view.createElement('li');
+                var label = this.view.createElement('label');
+                label.textContent = user;
+                var button = this.view.createElement('button');
+                button.textContent = 'Play!';
+                button.id = user;
+                button.addEventListener('click', e => {
+                    alert(sessionStorage.getItem('user') + 'vs' + button.id);
+                })
+                element.append(label, button);
+                this.view.userList.append(element);
+            }
+        } else {
+            while (this.view.userList.firstChild) {
+                this.view.userList.firstChild.remove();
+            }
+            var onlyElemMessage = this.view.createElement('h3');
+            onlyElemMessage.textContent = "You are only online player."
+            this.view.emptyElement.append(onlyElemMessage);
+        }
     }
 
 }
