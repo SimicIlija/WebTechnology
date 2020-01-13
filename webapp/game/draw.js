@@ -16,7 +16,8 @@ class View {
     constructor() {
         // The root element
         this.root = document.getElementById("board");
-        this.valid_pos = document.getElementsByClassName("valid_position");
+		this.valid_pos = document.getElementsByClassName("valid_position");
+		this.downloadButton = document.getElementById("downloadAnchorElem");
         this.clicked_position = null
         for(let elem of this.valid_pos){
         	elem.addEventListener("click", e => {
@@ -28,7 +29,7 @@ class View {
         			this.clicked_position = null
         		}
         	})
-        }
+		}
     }
     // create element with custom css element
     createElement(tag, className) {
@@ -82,15 +83,50 @@ class View {
 				
 			}
 		}
-	
+	}
+
+	bindDownloadButton(handler){
+		this.downloadButton.addEventListener('click', handler);
 	}
 }
 class Controller {
     constructor(model, view) {
         this.model = model;
         this.view = view;
-        this.view.draw_game(this.model.startin_position)
-    }
+		this.view.draw_game(this.model.startin_position)
+		this.view.bindDownloadButton(this.downloadState)
+		this.initDnD()
+	}
+
+	downloadState = event => {
+		this.saveFile("test.json", this.model.startin_position);
+	}
+
+	saveFile(filename, objectToWrite){
+		var dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(objectToWrite));
+		this.view.downloadButton.setAttribute("href",     dataStr     );
+		this.view.downloadButton.setAttribute("download", filename);
+	}
+		  
+	initDnD(){
+		var dropArea = document.getElementById("dropContainer");
+		dropArea.addEventListener('dragenter', function(e){ e.preventDefault(); });
+		dropArea.addEventListener('dragover',  function(e){ e.preventDefault(); });
+	
+		dropArea.addEventListener('drop', event => {
+	
+			var reader = new FileReader();
+			reader.onloadend = () => {
+				var data = JSON.parse(reader.result);
+				console.log(data)
+				this.model.startin_position = data
+				this.view.draw_game(this.model.startin_position)
+			};
+	
+			reader.readAsText(event.dataTransfer.files[0]);    
+			event.preventDefault();
+		});
+	}
 }
 
 const game = new Controller(new Model(), new View());
